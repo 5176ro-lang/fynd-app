@@ -1,125 +1,50 @@
-import { useEffect, useState } from "react";
-import { createItem, fetchCategories, fetchItems } from "./api/items.js";
-import ItemList from "./components/ItemList.jsx";
-
-const emptyForm = {
-  name: "",
-  description: "",
-  categoryId: ""
-};
+import { useEffect, useState } from 'react';
+import Navbar from './components/Navbar.jsx';
+import Home from './pages/Home.jsx';
+import MyListings from './pages/MyListings.jsx';
+import Profile from './pages/Profile.jsx';
+import LoadingMessage from './components/LoadingMessage.jsx';
+import { getUsers } from './api/api.js';
 
 export default function App() {
-  const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [form, setForm] = useState(emptyForm);
-  const [status, setStatus] = useState("Loading items...");
+  const [view, setView] = useState('home');
+  const [users, setUsers] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    async function loadData() {
+    async function loadUsers() {
       try {
-        const [itemData, categoryData] = await Promise.all([
-          fetchItems(),
-          fetchCategories()
-        ]);
-
-        setItems(itemData);
-        setCategories(categoryData);
-        setStatus("");
-      } catch (error) {
-        setStatus(error.message);
+        const res = await getUsers();
+        setUsers(res.data);
+        if (res.data.length > 0) setCurrentUserId(res.data[0].id);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setUsersLoading(false);
       }
     }
-
-    loadData();
+    loadUsers();
   }, []);
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setForm((currentForm) => ({
-      ...currentForm,
-      [name]: value
-    }));
-  }
+  const bump = () => setRefreshKey((k) => k + 1);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setStatus("Saving item...");
-
-    try {
-      const savedItem = await createItem(form);
-      setItems((currentItems) => [...currentItems, savedItem]);
-      setForm(emptyForm);
-      setStatus("Item created successfully.");
-    } catch (error) {
-      setStatus(error.message);
-    }
+  if (usersLoading) {
+    return (
+      <div className="app-shell">
+        <LoadingMessage label="Loading Loop…" />
+      </div>
+    );
   }
 
   return (
-    <main className="page">
-      <section className="panel">
-        <p className="eyebrow">React + Express + PostgreSQL + Prisma</p>
-        <h1>Student Full Stack Template</h1>
-        <p>
-          This starter includes a small example with categories and items so
-          students can see how the frontend, backend, and database connect.
-        </p>
-      </section>
+    <div className="app-shell">
+      <Navbar view={view} onNavigate={setView} users={users} currentUserId={currentUserId} onUserChange={setCurrentUserId} />
 
-      <section className="grid">
-        <article className="panel">
-          <h2>Create an item</h2>
-          <form className="form" onSubmit={handleSubmit}>
-            <label>
-              Item name
-              <input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Build a new feature"
-                required
-              />
-            </label>
-
-            <label>
-              Description
-              <textarea
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-                placeholder="Describe the task"
-                rows="4"
-                required
-              />
-            </label>
-
-            <label>
-              Category
-              <select
-                name="categoryId"
-                value={form.categoryId}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <button type="submit">Create item</button>
-          </form>
-        </article>
-
-        <article className="panel">
-          <h2>Example items</h2>
-          {status ? <p className="status">{status}</p> : null}
-          <ItemList items={items} />
-        </article>
-      </section>
-    </main>
+      {view === 'home' && <Home currentUserId={currentUserId} refreshKey={refreshKey} onSwapProposed={bump} />}
+      {view === 'mine' && <MyListings currentUserId={currentUserId} refreshKey={refreshKey} onChanged={bump} />}
+      {view === 'profile' && <Profile currentUserId={currentUserId} refreshKey={refreshKey} />}
+    </div>
   );
 }
