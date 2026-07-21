@@ -43,7 +43,8 @@ export async function getAllListings(req, res) {
         listings.photo_url, listings.hashtags, listings.status,
         listings.expires_at, listings.created_at, listings.user_id,
         users.name AS owner_name, users.username AS owner_username,
-        users.neighborhood AS owner_neighborhood, users.zip_code AS owner_zip_code,
+        users.city AS owner_city, users.neighborhood AS owner_neighborhood,
+        users.zip_code AS owner_zip_code,
         CASE
           WHEN listings.listing_mode = 'swap'
                AND listings.expires_at IS NOT NULL
@@ -80,8 +81,8 @@ export async function getListingById(req, res) {
       `SELECT
         listings.*,
         users.name AS owner_name, users.username AS owner_username,
-        users.neighborhood AS owner_neighborhood, users.zip_code AS owner_zip_code,
-        users.email AS owner_email,
+        users.city AS owner_city, users.neighborhood AS owner_neighborhood,
+        users.zip_code AS owner_zip_code, users.email AS owner_email,
         CASE
           WHEN listings.listing_mode = 'swap'
                AND listings.expires_at IS NOT NULL
@@ -103,7 +104,7 @@ export async function getListingById(req, res) {
   }
 }
 
-// GET /api/listings/mine/:userId — used by the swap picker (a user's own AVAILABLE listings)
+// GET /api/listings/mine/:userId
 export async function getMyAvailableListings(req, res) {
   try {
     const { userId } = req.params;
@@ -140,7 +141,7 @@ export async function createListing(req, res) {
       return res.status(400).json({ message: 'You can add up to 3 hashtags' });
     }
 
-    const days = Number(duration_days) || 7; // default 1 week
+    const days = Number(duration_days) || 7;
 
     const result = await pool.query(
       `INSERT INTO listings (user_id, title, description, category, listing_type, listing_mode, looking_for, photo_url, hashtags, expires_at)

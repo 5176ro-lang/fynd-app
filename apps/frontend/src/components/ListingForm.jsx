@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { uploadPhoto } from '../api/api.js';
+import { resolvePhotoUrl } from '../utils/photoUrl.js';
 
 const CATEGORIES = ['Fashion', 'Kitchen', 'Yard & Home', 'Home Services', 'Electronics', 'Books', 'Other'];
 
@@ -26,10 +28,26 @@ export default function ListingForm({ initialData, onCancel, onSubmit }) {
   });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const isEditing = Boolean(initialData);
 
   const handleChange = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+
+  const handlePhotoChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    setError('');
+    try {
+      const res = await uploadPhoto(file);
+      setForm((f) => ({ ...f, photo_url: res.data.url }));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,14 +109,17 @@ export default function ListingForm({ initialData, onCancel, onSubmit }) {
           </div>
 
           <div className="form-field">
-            <label htmlFor="photo_url">Photo URL</label>
+            <label htmlFor="photo_file">Photo</label>
             <input
-              id="photo_url"
-              type="text"
-              value={form.photo_url}
-              onChange={handleChange('photo_url')}
-              placeholder="/photos/yourphoto.jpg"
+              id="photo_file"
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
             />
+            {uploading && <span className="form-hint">Uploading…</span>}
+            {form.photo_url && !uploading && (
+              <img src={resolvePhotoUrl(form.photo_url)} alt="Preview" style={{ width: 120, borderRadius: 12, marginTop: 6 }} />
+            )}
           </div>
 
           <div className="form-field">

@@ -4,7 +4,7 @@ import ListingList from '../components/ListingList.jsx';
 import SwapModal from '../components/SwapModal.jsx';
 import { getListings, createSwap } from '../api/api.js';
 
-export default function Home({ currentUserId, refreshKey, onSwapProposed }) {
+export default function Home({ currentUser, refreshKey, onSwapProposed, locationFilter, onOpenListing, requireLogin }) {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -20,7 +20,15 @@ export default function Home({ currentUserId, refreshKey, onSwapProposed }) {
       setError('');
       try {
         const res = await getListings(filters);
-        if (!ignore) setListings(res.data);
+        const term = locationFilter.trim().toLowerCase();
+        const filtered = term
+          ? res.data.filter((l) =>
+              (l.owner_city || '').toLowerCase().includes(term) ||
+              (l.owner_neighborhood || '').toLowerCase().includes(term) ||
+              (l.owner_zip_code || '').toLowerCase().includes(term)
+            )
+          : res.data;
+        if (!ignore) setListings(filtered);
       } catch (err) {
         if (!ignore) setError(err.message);
       } finally {
@@ -29,21 +37,24 @@ export default function Home({ currentUserId, refreshKey, onSwapProposed }) {
     }
 
     load();
-    return () => {
-      ignore = true;
-    };
-  }, [filters, refreshKey]);
+    return () => { ignore = true; };
+  }, [filters, refreshKey, locationFilter]);
 
   const handlePropose = async ({ offered_listing_id, offer_description }) => {
     await createSwap({
       listing_id: proposingFor.id,
-      requester_id: currentUserId,
+      requester_id: currentUser.id,
       offered_listing_id,
       offer_description,
     });
     setProposingFor(null);
     setNotice('Sent! Check "My Listings" to follow up.');
     onSwapProposed();
+  };
+
+  const handlePropseClick = (listing) => {
+    if (!requireLogin()) return;
+    setProposingFor(listing);
   };
 
   return (
@@ -66,16 +77,17 @@ export default function Home({ currentUserId, refreshKey, onSwapProposed }) {
         listings={listings}
         loading={loading}
         error={error}
-        currentUserId={currentUserId}
+        currentUserId={currentUser?.id}
         onEdit={() => {}}
         onDelete={() => {}}
-        onPropose={(listing) => setProposingFor(listing)}
+        onPropose={handlePropseClick}
+        onOpenListing={onOpenListing}
       />
 
-      {proposingFor && (
+      {proposingFor && currentUser && (
         <SwapModal
           listing={proposingFor}
-          currentUserId={currentUserId}
+          currentUserId={currentUser.id}
           onCancel={() => setProposingFor(null)}
           onSubmit={handlePropose}
         />

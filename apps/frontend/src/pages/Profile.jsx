@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import LoadingMessage from '../components/LoadingMessage.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 import { getUserProfile, updateUser, checkUsername } from '../api/api.js';
+import { resolvePhotoUrl } from '../utils/photoUrl.js';
 
 export default function Profile({ currentUserId, refreshKey }) {
   const [profile, setProfile] = useState(null);
@@ -199,7 +200,7 @@ export default function Profile({ currentUserId, refreshKey }) {
           {listings.map((listing) => (
             <div className="listing-card" key={listing.id}>
               {listing.photo_url && (
-                <img src={listing.photo_url} alt={listing.title} className="listing-photo" />
+                <img src={resolvePhotoUrl(listing.photo_url)} alt={listing.title} className="listing-photo" />
               )}
               <div className="listing-card-body">
                 <h3>{listing.title}</h3>

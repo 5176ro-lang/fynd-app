@@ -3,7 +3,7 @@ import LoadingMessage from './LoadingMessage.jsx';
 import EmptyState from './EmptyState.jsx';
 
 export default function ListingList({
-  listings, loading, error, currentUserId, onEdit, onDelete, onPropose,
+  listings, loading, error, currentUserId, onEdit, onDelete, onPropose, onOpenListing,
 }) {
   if (loading) return <LoadingMessage />;
   if (error) return <EmptyState error message={`Couldn't load listings: ${error}`} />;
@@ -21,6 +21,7 @@ export default function ListingList({
           onEdit={onEdit}
           onDelete={onDelete}
           onPropose={onPropose}
+          onOpenListing={onOpenListing}
         />
       ))}
     </div>

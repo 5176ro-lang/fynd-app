@@ -7,8 +7,10 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     username VARCHAR(30) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
-    zip_code VARCHAR(10),
+   zip_code VARCHAR(10),
+    city VARCHAR(100),
     neighborhood VARCHAR(100),
     bio TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()

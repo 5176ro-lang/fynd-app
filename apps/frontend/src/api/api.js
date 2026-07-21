@@ -16,6 +16,10 @@ async function request(path, options = {}) {
 }
 
 // Listings
+export const login = (username, password) =>
+  request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) });
+export const signup = (data) =>
+  request('/auth/signup', { method: 'POST', body: JSON.stringify(data) });
 export const getListings = (params = {}) => {
   const query = new URLSearchParams(
     Object.entries(params).filter(([, v]) => v !== '' && v != null)
@@ -52,3 +56,12 @@ export const updateUser = (id, data) =>
   request(`/users/${id}`, { method: 'PUT', body: JSON.stringify(data) });
 export const checkUsername = (username, excludeId) =>
   request(`/users/check-username?username=${encodeURIComponent(username)}${excludeId ? `&exclude_id=${excludeId}` : ''}`);
+
+export async function uploadPhoto(file) {
+  const formData = new FormData();
+  formData.append('photo', file);
+  const res = await fetch(`${API_URL}/uploads`, { method: 'POST', body: formData });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.message || 'Upload failed');
+  return body;
+}
