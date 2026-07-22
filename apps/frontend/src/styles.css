@@ -1166,3 +1166,16 @@ a {
     padding: 20px;
   }
 }
+.navbar-brand-centered h1 {
+  font-size: 5.5rem !important;
+  color: var(--sky-deep, #2E7DA6) !important;
+}
+
+.login-modal-brand h1 {
+  font-size: 3.2rem !important;
+  color: var(--sky-deep, #2E7DA6) !important;
+}
+.navbar-brand-centered .loop-glyph {
+  border-color: var(--sky-deep, #2E7DA6) !important;
+  border-right-color: transparent !important;
+}
