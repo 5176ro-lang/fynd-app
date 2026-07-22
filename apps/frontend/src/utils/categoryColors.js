@@ -4,7 +4,6 @@ export const CATEGORY_COLORS = {
   Fashion: { bg: '#FADA5D', text: '#6B5410' },
   Kitchen: { bg: '#FAFAD2', text: '#7A6A00' },
   'Yard & Home': { bg: '#91F3D3', text: '#1B6E56' },
-  'Home Services': { bg: '#78E9C1', text: '#155C46' },
   Electronics: { bg: '#F5EC76', text: '#6B5E00' },
   Books: { bg: '#FADA5D', text: '#6B5410' },
   Other: { bg: '#FAFAD2', text: '#7A6A00' },

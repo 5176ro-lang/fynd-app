@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { uploadPhoto } from '../api/api.js';
 import { resolvePhotoUrl } from '../utils/photoUrl.js';
 
-const CATEGORIES = ['Fashion', 'Kitchen', 'Yard & Home', 'Home Services', 'Electronics', 'Books', 'Other'];
+const CATEGORIES = ['Fashion', 'Kitchen', 'Yard & Home', 'Electronics', 'Books', 'Other'];
 
 const emptyForm = {
   title: '',
