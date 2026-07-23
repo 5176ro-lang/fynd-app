@@ -17,7 +17,7 @@ export default function Navbar({ view, onNavigate, currentUser, onSignInClick, o
             <img src="/fyndlocal-icon.png" alt="" className="brand-icon" />
             <h1>FyndLocal</h1>
           </div>
-          <p className="navbar-tagline-left">Add items you don't need. Swap items you want. Swap it locally.</p>
+          <p className="navbar-tagline-left">List it. Fynd it. Swap it locally.</p>
         </div>
 
         <div className="navbar-right">
