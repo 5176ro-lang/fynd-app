@@ -45,9 +45,10 @@ a {
 }
 
 .app-shell {
-  max-width: 1120px;
+  width: 100%;
+  max-width: 1800px;
   margin: 0 auto;
-  padding: 0 24px 64px;
+  padding: 0 clamp(16px, 4vw, 64px) 64px;
 }
 
 /* Top announcement banner */
