@@ -88,17 +88,18 @@ a {
   padding-bottom: 14px;
 }
 
-.navbar-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
 .navbar-left .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
+
+.brand-icon {
+  height: 3.4rem;
+  width: auto;
+  display: inline-block;
+}
+
 
 .navbar-left h1 {
   font-family: 'Baloo 2', sans-serif;
@@ -336,28 +337,27 @@ a {
   color: var(--ink);
 }
 
-.category-pills {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
 .category-pill {
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.8rem;
-  padding: 8px 16px;
+  padding: 7px 15px;
   border-radius: 999px;
-  border: none;
+  border: 1.5px solid var(--mint);
   cursor: pointer;
   white-space: nowrap;
+  background: transparent;
+  color: #0f4636;
 }
 
 .category-pill.inactive {
-  background: var(--surface);
+  background: transparent;
+  border-color: var(--line);
   color: var(--ink-soft);
-  box-shadow: 0 1px 4px rgba(43, 58, 52, 0.08);
+}
+
+.category-pill:not(.inactive) {
+  background: var(--mint);
 }
 
 /* Listing grid & cards */
@@ -385,27 +385,30 @@ a {
 
 .listing-photo-wrap {
   position: relative;
+  padding: 6px;
 }
 
 .listing-photo {
   width: 100%;
-  height: 240px;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   display: block;
   background: var(--mint-light);
+  border-radius: 12px;
 }
 
 .new-badge {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: var(--yellow-deep);
-  color: #4a3a08;
+  background: var(--surface);
+  color: #0f4636;
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 0.68rem;
-  padding: 5px 11px;
+  font-weight: 700;
+  font-size: 0.65rem;
+  padding: 4px 10px;
   border-radius: 999px;
+  border: 1.5px solid var(--mint);
   text-transform: uppercase;
 }
 

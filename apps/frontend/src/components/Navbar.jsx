@@ -8,16 +8,16 @@ export default function Navbar({ view, onNavigate, currentUser, onSignInClick, o
   return (
     <header className="navbar">
       <div className="top-banner">
-        Next Free Market: Sunday, July 26th
+        Next FyndLocal Market: Sunday, July 26th
       </div>
 
       <div className="navbar-main">
         <div className="navbar-left">
           <div className="navbar-brand">
-         <img src="/fyndlocal-icon.png" alt="" className="brand-icon" />
-          <h1>FyndLocal</h1>
-            </div>
-          <p className="navbar-tagline-left">Add items you don't need. Find items you want. Swap it locally.</p>
+            <img src="/fyndlocal-icon.png" alt="" className="brand-icon" />
+            <h1>FyndLocal</h1>
+          </div>
+          <p className="navbar-tagline-left">Add items you don't need. Swap items you want. Swap it locally.</p>
         </div>
 
         <div className="navbar-right">
@@ -82,7 +82,7 @@ export default function Navbar({ view, onNavigate, currentUser, onSignInClick, o
             My Listings
           </button>
           <button type="button" className={`nav-tab ${view === 'community' ? 'active' : ''}`} onClick={() => onNavigate('community')}>
-            Fynd Free Market
+            FyndLocal Market
           </button>
         </nav>
         <button type="button" className="how-it-works-link" onClick={() => setShowHowItWorks(true)}>
@@ -98,7 +98,7 @@ export default function Navbar({ view, onNavigate, currentUser, onSignInClick, o
               <li><strong>Post what you don't need.</strong> Add a photo, a quick description, and whether you want a trade or you're giving it away free.</li>
               <li><strong>Browse what others are offering.</strong> Filter by category or city to find things near you.</li>
               <li><strong>Propose a swap.</strong> Offer one of your own listings in trade, or claim a free item outright.</li>
-              <li><strong>Meet up safely.</strong> Use a public spot — a library, or our monthly Free Market — to trade in person.</li>
+              <li><strong>Meet up safely.</strong> Use a public spot — a library, or our monthly FyndLocal Market — to trade in person.</li>
             </ol>
             <button type="button" className="btn primary" style={{ width: '100%', marginTop: 16 }} onClick={() => setShowHowItWorks(false)}>
               Got it
