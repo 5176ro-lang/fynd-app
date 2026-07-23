@@ -1026,3 +1026,13 @@ a {
     margin-left: 0;
   }
 }
+.brand-icon {
+  height: 4.2rem;
+  width: auto;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(46, 125, 166, 0.15));
+}
+
+.login-modal-brand .brand-icon {
+  height: 3.4rem;
+}

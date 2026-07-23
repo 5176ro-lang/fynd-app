@@ -14,9 +14,9 @@ export default function Navbar({ view, onNavigate, currentUser, onSignInClick, o
       <div className="navbar-main">
         <div className="navbar-left">
           <div className="navbar-brand">
-            <span className="loop-glyph" aria-hidden="true"></span>
-            <h1>FyndLocal</h1>
-          </div>
+         <img src="/fyndlocal-icon.png" alt="" className="brand-icon" />
+          <h1>FyndLocal</h1>
+            </div>
           <p className="navbar-tagline-left">Add items you don't need. Find items you want. Swap it locally.</p>
         </div>
 

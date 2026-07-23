@@ -34,9 +34,9 @@ export default function LoginModal({ onClose, onLoggedIn }) {
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal login-modal" onClick={(e) => e.stopPropagation()}>
         <div className="login-modal-brand">
-          <span className="loop-glyph" aria-hidden="true"></span>
-          <h1>Fynd</h1>
-        </div>
+             <img src="/fyndlocal-icon.png" alt="" className="brand-icon" />
+              <h1>FyndLocal</h1>
+                </div>
 
         <div className="login-modal-tabs">
           <button
